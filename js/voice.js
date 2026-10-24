@@ -162,7 +162,10 @@ function pickVoice() {
 }
 
 // ------------------------------------------------------------------ lecture
-const players = new Map();
+// Un seul lecteur audio, réutilisé pour toutes les phrases : sur iPhone (Safari), un lecteur n'a le droit de
+// jouer tout seul que s'il a déjà joué une fois à la suite d'un geste (le clic sur « Commencer »). Avec un
+// lecteur par phrase, seule la phrase d'accueil était autorisée et certains mots restaient muets.
+let shared = null;
 let current = null; // lecteur d'enregistrement en cours
 let token = 0;
 
@@ -176,13 +179,12 @@ function stopAll() {
 }
 
 function player(url) {
-  let a = players.get(url);
-  if (!a) {
-    a = new Audio(url);
-    a.preload = 'auto';
-    players.set(url, a);
+  if (!shared) {
+    shared = new Audio();
+    shared.preload = 'auto';
   }
-  return a;
+  if (shared.src !== url) shared.src = url;
+  return shared;
 }
 
 function speakSynth(text, onEnd) {
@@ -210,7 +212,7 @@ function play(key, onEnd) {
       const a = player(url);
       current = a;
       a.onended = onEnd ? () => { if (current === a) onEnd(); } : null;
-      a.currentTime = 0;
+      try { a.currentTime = 0; } catch { /* pas encore chargé : lecture depuis le début de toute façon */ }
       const p = a.play();
       if (p && typeof p.catch === 'function') p.catch(() => { if (current === a) current = null; });
     } catch { current = null; }

@@ -1,6 +1,6 @@
 // Service worker de Souffle : met toute l'app en cache (cache d'abord) pour qu'elle marche hors ligne.
 // Penser à changer VERSION à chaque modification des fichiers de l'app.
-const VERSION = 'souffle-v6';
+const VERSION = 'souffle-v7';
 const FILES = [
   './',
   './index.html',
