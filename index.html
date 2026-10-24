@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="fr" data-theme="auto">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Souffle — respiration guidée</title>
+  <meta name="description" content="Respiration guidée : cohérence cardiaque et exercices de sophrologie. Sans compte, sans pub, même hors ligne.">
+  <meta name="theme-color" content="#eef4f2">
+  <meta name="color-scheme" content="light dark">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/icon-192.png">
+  <link rel="stylesheet" href="css/styles.css">
+  <script>
+    // Applique le thème mémorisé avant l'affichage (évite un flash de couleur).
+    try {
+      var s = JSON.parse(localStorage.getItem('souffle:settings') || '{}');
+      if (s && ['auto', 'light', 'dark'].indexOf(s.theme) >= 0) document.documentElement.dataset.theme = s.theme;
+      if (s && typeof s.ballColor === 'string') document.documentElement.style.setProperty('--ball', s.ballColor);
+    } catch (e) { /* rien */ }
+  </script>
+  <script type="module" src="js/main.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main" onclick="event.preventDefault(); document.getElementById('main').focus();">Aller au contenu</a>
+  <header class="site-header">
+    <div class="site-header-inner">
+      <span class="brand" aria-hidden="true"><span class="brand-dot"></span></span>
+      <nav class="site-nav" aria-label="Navigation principale">
+        <a href="#/" data-testid="nav-accueil" data-nav="accueil">Accueil</a>
+        <a href="#/historique" data-testid="nav-historique" data-nav="historique">Historique</a>
+        <a href="#/reglages" data-testid="nav-reglages" data-nav="reglages">Réglages</a>
+      </nav>
+    </div>
+  </header>
+  <main id="main" class="main" tabindex="-1"></main>
+  <noscript><p class="noscript">Souffle a besoin de JavaScript pour fonctionner.</p></noscript>
+</body>
+</html>
